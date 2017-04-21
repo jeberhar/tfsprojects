@@ -1,5 +1,3 @@
-**Project Description**
-
 **Welcome CodePlex users!**
 
 **UPDATE:  TFS Projects 2.1 is here!  I spent a lot of time polishing the project on this release, but there are many new features I think you will like as well.  Download it today!**
