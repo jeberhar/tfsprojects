@@ -12,7 +12,7 @@ TFS Projects is a Windows Forms application, requiring .Net 4.5.  To make modifi
 
 If you need CSV output, check out the helper utility that **lgwapnitsky** wrote at https://tfsprojectstocsv.codeplex.com/ 
 
-If you are using TFS 2005, check out http://tfsusers.codeplex.com for a comprehensive user audit check for that version of TFS.
+If you are using TFS 2005, check out http://github.com/jeberhar/tfsusers for a comprehensive user audit check for that version of TFS.
 
 ![](Home_TFSProjectsScreenshot.jpg)
 
