@@ -1,8 +1,8 @@
 **Project Description**
 
-**UPDATE:  TFS Projects 2.1 is here!  I spent a lot of time polishing the project on this release, but there are many new features I think you will like as well.  Download it today!**
+**Welcome CodePlex users!**
 
-**If you have downloaded TFS Projects, please leave a rating!  Also, feel free to suggest improvements or features in the discussions.  Your feedback is very important to me!**
+**UPDATE:  TFS Projects 2.1 is here!  I spent a lot of time polishing the project on this release, but there are many new features I think you will like as well.  Download it today!**
 
 TFS Projects will provide a list of all users, by group, for each project or for only one project on a given Team Foundation Server instance via the TFS API.  
 
@@ -18,4 +18,4 @@ If you are using TFS 2005, check out http://tfsusers.codeplex.com for a comprehe
 
 ![](Home_TFSProjectsScreenshot.jpg)
 
-Copyright 2016 Jay Eberhard.
+Copyright 2017 Jay Eberhard.
