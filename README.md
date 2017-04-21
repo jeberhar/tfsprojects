@@ -10,8 +10,6 @@ There is much more information about each user that could be displayed, look at 
 
 TFS Projects is a Windows Forms application, requiring .Net 4.5.  To make modifications download the source and load up in Visual Studio, the full project is in the zip file to make customizations easier.
 
-If you need CSV output, check out the helper utility that **lgwapnitsky** wrote at https://tfsprojectstocsv.codeplex.com/ 
-
 If you are using TFS 2005, check out http://github.com/jeberhar/tfsusers for a comprehensive user audit check for that version of TFS.
 
 ![](Home_TFSProjectsScreenshot.jpg)
