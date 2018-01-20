@@ -5,6 +5,7 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
+using System.Collections.Generic;
 
 namespace TFSProjectsWin
 {
@@ -556,10 +557,11 @@ namespace TFSProjectsWin
                         #region for each group defined for the project...
 
                         //get the groups for our singleton project
-                        Identity[] projectGroups = mainForm.gss.ListApplicationGroups(singleURI);
-
-                        foreach (Identity projectGroup in projectGroups)
+                        List<Identity> projectGroups = new List<Identity>(mainForm.gss.ListApplicationGroups(singleURI));
+                        int tfsGroupCount = projectGroups.Count;
+                        for (int i = 0;  i<projectGroups.Count;i++)
                         {
+                            Identity projectGroup = projectGroups[i];
                             //check for cancellation
                             if (mainForm.tfsInfoBackgroundWorker.CancellationPending == true)
                             {
@@ -582,9 +584,12 @@ namespace TFSProjectsWin
                                     if (mainForm.rtfMain.InvokeRequired)
                                     {
                                         //mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("\n\tProject Group Name : {0}", mainForm.projectGroupIdentity.DisplayName)); }));
-                                        printText = "\n\tProject Group Name: " + mainForm.projectGroupIdentity.DisplayName;
+                                        if (i < tfsGroupCount)
+                                            printText = "\n\tProject Group Name: " + mainForm.projectGroupIdentity.DisplayName;
+                                        else
+                                            printText = "\n\tOut-Of-Project Group Name: " + mainForm.projectGroupIdentity.DisplayName;
                                         mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionLength = printText.Length; }));
-                                        mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.DarkCyan; }));
+                                        mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = (i < tfsGroupCount)? Color.DarkCyan : Color.Blue; }));
                                         mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(printText); }));
                                         mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Black; }));
                                         printText = "";
@@ -609,7 +614,8 @@ namespace TFSProjectsWin
 
                                     singleIdCount = singleIdCount + 1;
                                     mainForm.tfsID = mainForm.gss.ReadIdentity(SearchFactor.Sid, groupMemberSid, QueryMembership.None);
-
+                                    if (mainForm.tfsID.SecurityGroup && !projectGroups.Contains(mainForm.tfsID))
+                                        projectGroups.Insert(projectGroups.Count, mainForm.tfsID);
                                     if (mainForm.emailOnly == false)
                                     {
                                         if (mainForm.rtfMain.InvokeRequired)

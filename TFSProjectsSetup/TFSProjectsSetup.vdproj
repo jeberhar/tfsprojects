@@ -1860,7 +1860,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TFS Projects"
         "ProductCode" = "8:{31C014D4-8CCD-41D9-8846-691C41F05CFB}"
-        "PackageCode" = "8:{1DC515C8-434B-4974-9ABD-449D80F3F55A}"
+        "PackageCode" = "8:{FCBFBA57-5A15-4F1D-81D9-B1E44030570A}"
         "UpgradeCode" = "8:{8D6ED23E-639C-487D-9444-3BAC11D930AA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2437,7 +2437,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6C1BC19C1F204AA5B6602A1C095E472E"
             {
-            "SourcePath" = "8:..\\TFSProjectsWin\\obj\\x86\\Release\\TFS Projects.exe"
+            "SourcePath" = "8:..\\TFSProjectsWin\\obj\\x86\\Debug\\TFS Projects.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5E87E7689BE04D06B3C9DAC67A5D07BE"
