@@ -26,7 +26,7 @@ namespace TFSProjectsWin
         {
             mainForm.rtfAbout.Invoke(new MethodInvoker(delegate { mainForm.rtfAbout.Clear(); }));
 
-            printText = "\nTFS Project Audit 2.1 by Jay Eberhard Copyright 2016\n\n";
+            printText = "\nTFS Project Audit 2.2.1 by Jay Eberhard Copyright 2018\n\n";
             mainForm.rtfAbout.Invoke(new MethodInvoker(delegate { mainForm.rtfAbout.SelectionLength = printText.Length; }));
             mainForm.rtfAbout.Invoke(new MethodInvoker(delegate { mainForm.rtfAbout.SelectionFont = new Font("Arial",mainForm.rtfAbout.Font.Size, FontStyle.Bold); }));
             mainForm.rtfAbout.Invoke(new MethodInvoker(delegate { mainForm.rtfAbout.AppendText(printText); }));
