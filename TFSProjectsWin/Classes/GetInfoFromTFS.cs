@@ -153,7 +153,7 @@ namespace TFSProjectsWin
 
                             //for each Team project identify each security Group
                             mainForm.allProjectGroups = mainForm.gss.ListApplicationGroups(mainForm.teamProjectUriInfo);
-
+                            
                             #endregion
 
                             //skip this team project if it has the specific All selection, which isn't an actual project only a value from the combo box
@@ -216,9 +216,12 @@ namespace TFSProjectsWin
 
                             #region for each project group within each project within each collection
 
+                            List<Identity> projectGroups = new List<Identity>(mainForm.allProjectGroups);
+                            int tfsGroupCount = projectGroups.Count;
                             //iterate thru the project group list and get a list of direct members for each project group
-                            foreach (Identity projectGroup in mainForm.allProjectGroups)
+                            for (int i=0; i < projectGroups.Count; i++)
                             {
+                                Identity projectGroup = projectGroups[i];
                                 //check for cancellation
                                 if (mainForm.tfsInfoBackgroundWorker.CancellationPending == true)
                                 {
@@ -239,9 +242,12 @@ namespace TFSProjectsWin
                                         if (mainForm.rtfMain.InvokeRequired)
                                         {
                                             //mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("\n\tProject Group Name: {0}", mainForm.projectGroupIdentity.DisplayName)); }));
-                                            printText = "\n\tProject Group Name: " + mainForm.projectGroupIdentity.DisplayName;
+                                            if (i < tfsGroupCount)
+                                                printText = "\n\tProject Group Name: " + mainForm.projectGroupIdentity.DisplayName;
+                                            else
+                                                printText = "\n\tOut-Of-Project Group Name: " + mainForm.projectGroupIdentity.DisplayName;
                                             mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionLength = printText.Length; }));
-                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.DarkCyan; }));
+                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = (i < tfsGroupCount) ? Color.DarkCyan : Color.Blue; }));
                                             mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(printText); }));
                                             mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Black; }));
                                             printText = "";
@@ -268,7 +274,9 @@ namespace TFSProjectsWin
 
                                         //fetch the user ID info
                                         mainForm.tfsID = mainForm.gss.ReadIdentity(SearchFactor.Sid, groupMemberSID, QueryMembership.None);
-
+                                        if (mainForm.tfsID.SecurityGroup && !projectGroups.Contains(mainForm.tfsID))
+                                            projectGroups.Insert(projectGroups.Count, mainForm.tfsID);
+                                        else
                                         //print the name and email for each ID when we're not just printing email addresses
                                         //NOTE: modify the AppendText line if you want more or less user info printed
                                         if ((mainForm.emailOnly == false) && (mainForm.providedGroup != mainForm.noRoleHolder))
@@ -485,6 +493,7 @@ namespace TFSProjectsWin
                                 if (mainForm.rtfMain.InvokeRequired)
                                 {
                                     mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("\n\nThere are {0} users on {1}\n", mainForm.totalNumberProjectUsers, mainForm.serverURInospace)); }));
+                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("\nThere are {0} email addresses\n", mainForm.myUsers.Count)); }));
                                 }
                             }
                         }
