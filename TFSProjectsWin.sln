@@ -1,24 +1,41 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSProjectsWin", "TFSProjectsWin\TFSProjectsWin.csproj", "{D51B83DA-0E95-4724-A581-5F0AE776DCFC}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TFSProjectsSetup", "TFSProjectsSetup\TFSProjectsSetup.vdproj", "{401B4584-54CA-428E-B68E-D885CEC5EB12}"
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "TFSProjectsSetup", "TFSProjectsSetup\TFSProjectsSetup.isproj", "{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|x86 = CD_ROM|x86
 		Debug|x86 = Debug|x86
+		DVD-5|x86 = DVD-5|x86
 		Release|x86 = Release|x86
+		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.CD_ROM|x86.ActiveCfg = Release|x86
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.CD_ROM|x86.Build.0 = Release|x86
 		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.Debug|x86.ActiveCfg = Debug|x86
 		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.Debug|x86.Build.0 = Debug|x86
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.DVD-5|x86.ActiveCfg = Debug|x86
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.DVD-5|x86.Build.0 = Debug|x86
 		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.Release|x86.ActiveCfg = Release|x86
 		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.Release|x86.Build.0 = Release|x86
-		{401B4584-54CA-428E-B68E-D885CEC5EB12}.Debug|x86.ActiveCfg = Debug
-		{401B4584-54CA-428E-B68E-D885CEC5EB12}.Debug|x86.Build.0 = Debug
-		{401B4584-54CA-428E-B68E-D885CEC5EB12}.Release|x86.ActiveCfg = Release
-		{401B4584-54CA-428E-B68E-D885CEC5EB12}.Release|x86.Build.0 = Release
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.SingleImage|x86.ActiveCfg = Release|x86
+		{D51B83DA-0E95-4724-A581-5F0AE776DCFC}.SingleImage|x86.Build.0 = Release|x86
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.CD_ROM|x86.Build.0 = CD_ROM
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.Debug|x86.ActiveCfg = DVD-5
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.Debug|x86.Build.0 = DVD-5
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.DVD-5|x86.ActiveCfg = DVD-5
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.DVD-5|x86.Build.0 = DVD-5
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.Release|x86.ActiveCfg = SingleImage
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.Release|x86.Build.0 = SingleImage
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.SingleImage|x86.ActiveCfg = SingleImage
+		{7F2C8D1A-C72A-4EF1-8E24-0158147744CB}.SingleImage|x86.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
