@@ -1,7 +1,3 @@
-**Welcome CodePlex users!**
-
-**UPDATE:  TFS Projects 2.1 is here!  I spent a lot of time polishing the project on this release, but there are many new features I think you will like as well.  Download it today!**
-
 TFS Projects will provide a list of all users, by group, for each project or for only one project on a given Team Foundation Server instance via the TFS API.  
 
 The default port for the instance is required, which is usually 8080 unless it has been customized, in which case you can specify your port in the app.  If you don't know the default port, ask your Team Foundation Server administrator.
