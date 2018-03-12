@@ -1,5 +1,7 @@
 TFS Projects will provide a list of all users, by group, for each project or for only one project on a given Team Foundation Server instance via the TFS API.  
 
+Direct installer link: https://github.com/jeberhar/tfsprojects/blob/master/TFSProjects.msi
+
 The default port for the instance is required, which is usually 8080 unless it has been customized, in which case you can specify your port in the app.  If you don't know the default port, ask your Team Foundation Server administrator.
 
 There is much more information about each user that could be displayed, look at the IGroupSecurityService2 object for more info.  For this program I only used Name and MailAddress for the sake of brevity.
@@ -10,4 +12,4 @@ If you are using TFS 2005, check out http://github.com/jeberhar/tfsusers for a c
 
 ![](Home_TFSProjectsScreenshot.jpg)
 
-Copyright 2017 Jay Eberhard.
+Copyright 2018 Jay Eberhard.
