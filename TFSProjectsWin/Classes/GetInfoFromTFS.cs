@@ -6,6 +6,7 @@ using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 
 namespace TFSProjectsWin
 {
@@ -283,7 +284,10 @@ namespace TFSProjectsWin
                                         {
                                             if (mainForm.rtfMain.InvokeRequired)
                                             {
-                                                if (mainForm.tfsID.MailAddress != "")
+                                                PrincipalContext principalContext = new PrincipalContext(ContextType.Domain, mainForm.tfsID.Domain);
+                                                var accountName = mainForm.tfsID.Domain + '\\' + mainForm.tfsID.AccountName;
+                                                UserPrincipal user1 = UserPrincipal.FindByIdentity(principalContext, mainForm.tfsID.AccountName);
+                                                if (mainForm.tfsID.MailAddress != "" && (user1?.Enabled ?? false))
                                                 {
                                                     mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("\n\t\tName : {0}\t\t\tEmail : {1}", mainForm.tfsID.DisplayName, mainForm.tfsID.MailAddress)); }));
                                                 }
@@ -308,8 +312,19 @@ namespace TFSProjectsWin
                                                     {
                                                         if ((mainForm.myUsers.Contains(mainForm.tfsID.MailAddress.ToString()) == false)&&(mainForm.myUsers.Contains(mainForm.tfsID.DisplayName.ToString()) == false))
                                                         {
-                                                            mainForm.myUsers.Add(mainForm.tfsID.MailAddress.ToString()); //print the email address if myUsers doesn't already contain it, if the address isn't empty, and if allCollections is false
-                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} email found! --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                            PrincipalContext principalContext = new PrincipalContext(ContextType.Domain, mainForm.tfsID.Domain);
+                                                            var accountName = mainForm.tfsID.Domain + '\\' + mainForm.tfsID.AccountName;
+                                                            UserPrincipal user1 = UserPrincipal.FindByIdentity(principalContext, mainForm.tfsID.AccountName);
+                                                            if (user1?.Enabled ?? false)
+                                                            {
+                                                                mainForm.myUsers.Add(mainForm.tfsID.MailAddress.ToString()); //print the email address if myUsers doesn't already contain it, if the address isn't empty, and if allCollections is false
+                                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} email found! --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                            }
+                                                            else
+                                                            {
+                                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: {0} email found! but the user \"{1}\" does not exist or is not enabled --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString(), accountName)); }));
+                                                            }
                                                         }
                                                     }
                                                     else
@@ -329,7 +344,8 @@ namespace TFSProjectsWin
                                                         if ((mainForm.myNonUsers.Contains(mainForm.tfsID.MailAddress.ToString()) == false) && (mainForm.myUsers.Contains(mainForm.tfsID.MailAddress.ToString()) == false) && (mainForm.myNonUsers.Contains(mainForm.tfsID.DisplayName.ToString()) == false) && (mainForm.tfsID.SecurityGroup.Equals(false)))
                                                         {
                                                             mainForm.myNonUsers.Add(mainForm.tfsID.DisplayName.ToString()); //print the email address if myUsers doesn't already contain it, if the address isn't empty, and if allCollections is false
-                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
                                                         }
                                                     }
                                                     else
@@ -337,7 +353,8 @@ namespace TFSProjectsWin
                                                         if ((mainForm.myNonUsersAllCollections.Contains(mainForm.tfsID.MailAddress.ToString()) == false) && (mainForm.myUsers.Contains(mainForm.tfsID.MailAddress.ToString()) == false) && (mainForm.tfsID.SecurityGroup.Equals(false)) && (mainForm.myNonUsersAllCollections.Contains(mainForm.tfsID.DisplayName.ToString()) == false))
                                                         {
                                                             mainForm.myNonUsersAllCollections.Add(mainForm.tfsID.DisplayName.ToString()); //add the address to myNonUsersAllCollections for email addresses from all collections
-                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                                            mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
                                                         }
                                                     }
                                                     if ((mainForm.myNonUsers.Contains(mainForm.tfsID.MailAddress.ToString()) == false) && (mainForm.myNonUsers.Contains(mainForm.tfsID.DisplayName.ToString()) == false))
@@ -446,7 +463,8 @@ namespace TFSProjectsWin
 
                                     if (mainForm.rtfMain.InvokeRequired)
                                     {
-                                        mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} has no email address associated with it!\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                        mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                        mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: {0} has no email address associated with it!\n", email.ToLower())); }));
                                     }
                                 }
                             }
@@ -650,9 +668,20 @@ namespace TFSProjectsWin
                                         {
                                             if (mainForm.tfsID.MailAddress.ToString() != "")
                                             {
-                                                mainForm.myUsers.Add(mainForm.tfsID.MailAddress.ToString());
-                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} email found! --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
-                                                mainForm.totalNumberProjectUsers = mainForm.totalNumberProjectUsers + 1;
+                                                PrincipalContext principalContext = new PrincipalContext(ContextType.Domain, mainForm.tfsID.Domain);
+                                                var accountName = mainForm.tfsID.Domain + '\\' + mainForm.tfsID.AccountName;
+                                                UserPrincipal user1 = UserPrincipal.FindByIdentity(principalContext, mainForm.tfsID.AccountName);
+                                                if (user1?.Enabled ?? false)
+                                                {
+                                                    mainForm.myUsers.Add(mainForm.tfsID.MailAddress.ToString());
+                                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} email found! --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                    mainForm.totalNumberProjectUsers = mainForm.totalNumberProjectUsers + 1;
+                                                }
+                                                else
+                                                {
+                                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: {0} email found! but the user \"{1}\" does not exist or is not enabled --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString(), accountName)); }));
+                                                }
                                             }
                                         }
                                         if ((mainForm.myNonUsers.Contains(mainForm.tfsID.DisplayName.ToString()) == false)&&(mainForm.myUsers.Contains(mainForm.tfsID.DisplayName.ToString()) == false)&&(mainForm.tfsID.SecurityGroup.Equals(false)))
@@ -660,7 +689,8 @@ namespace TFSProjectsWin
                                             if (mainForm.tfsID.MailAddress.ToString() == "")
                                             {
                                                 mainForm.myNonUsers.Add(mainForm.tfsID.DisplayName.ToString());
-                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
+                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: No email found for {0} --Continuing to discover other users...\n", mainForm.tfsID.DisplayName.ToString())); }));
                                                 mainForm.totalNumberProjectUsers = mainForm.totalNumberProjectUsers + 1;
                                             }
                                         }
@@ -744,7 +774,8 @@ namespace TFSProjectsWin
 
                                 if (mainForm.rtfMain.InvokeRequired)
                                 {
-                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} has no email address associated with it!\n", email.ToLower())); }));
+                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                    mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: {0} has no email address associated with it!\n", email.ToLower())); }));
                                 }
                             }
                         }
@@ -815,7 +846,8 @@ namespace TFSProjectsWin
 
                             if (mainForm.rtfMain.InvokeRequired)
                             {
-                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("{0} has no email address associated with it! \n", email.ToLower())); }));
+                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.SelectionColor = Color.Red; }));
+                                mainForm.rtfMain.Invoke(new MethodInvoker(delegate { mainForm.rtfMain.AppendText(string.Format("Error: {0} has no email address associated with it! \n", email.ToLower())); }));
                             }
                         }
                     }
